@@ -45,6 +45,13 @@ Records are upserted by `(source, external_id)`. Invalid or missing spatial
 coordinates are stored as null; valid points use longitude as X, latitude as Y,
 and SRID 4326.
 
+## License and data sources
+
+The Fossil Data Hub application code is licensed under the MIT License; see
+`LICENSE`. This license does not apply to fossil occurrence data retrieved from
+Naturalis or GBIF. Data users are responsible for reviewing and following the
+applicable source licenses, reuse conditions, and attribution requirements.
+
 ## Fossil API
 
 - `GET /api/fossils` lists fossils and supports `source`, `scientific_name`, and
