@@ -45,6 +45,28 @@ Records are upserted by `(source, external_id)`. Invalid or missing spatial
 coordinates are stored as null; valid points use longitude as X, latitude as Y,
 and SRID 4326.
 
+## Fossil API
+
+- `GET /api/fossils` lists fossils and supports `source`, `scientific_name`, and
+  `per_page` query parameters (`per_page` is limited to 100).
+- `GET /api/fossils/{uuid}` returns one fossil.
+
+Responses are transformed with League Fractal and use a `data` envelope;
+collection responses also include pagination metadata. Scribe serves the
+generated API documentation at `/docs`.
+
+The endpoint descriptions and query-parameter docs live beside the controller
+methods in `app/Http/Controllers/Api/FossilController.php`. After changing API
+routes or annotations, regenerate and commit the static docs:
+
+```sh
+composer docs:generate
+```
+
+`composer docs:check` regenerates the docs and fails if `public/docs` differs
+from the committed version. A GitHub Actions workflow runs this check on pushes
+and pull requests, so stale docs are caught before merging.
+
 ## Quality checks
 
 ```sh

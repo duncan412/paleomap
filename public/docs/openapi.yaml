@@ -1,0 +1,232 @@
+openapi: 3.0.3
+info:
+  title: 'Fossil Data Hub API Documentation'
+  description: 'Read fossil records collected from Naturalis and GBIF.'
+  version: 1.0.0
+servers:
+  -
+    url: 'http://localhost'
+tags:
+  -
+    name: Fossils
+    description: ''
+paths:
+  /api/fossils:
+    get:
+      summary: 'List fossil records with optional source/name filters and pagination.'
+      operationId: listFossilRecordsWithOptionalSourcenameFiltersAndPagination
+      description: ''
+      parameters:
+        -
+          in: query
+          name: source
+          description: 'Filter by source. Allowed values: naturalis, gbif.'
+          example: gbif
+          required: false
+          schema:
+            type: string
+            description: 'Filter by source. Allowed values: naturalis, gbif.'
+            example: gbif
+        -
+          in: query
+          name: scientific_name
+          description: 'Filter by a scientific name containing this text.'
+          example: Tyrannosaurus
+          required: false
+          schema:
+            type: string
+            description: 'Filter by a scientific name containing this text.'
+            example: Tyrannosaurus
+        -
+          in: query
+          name: per_page
+          description: 'Number of records per page (1-100). Defaults to 15.'
+          example: 25
+          required: false
+          schema:
+            type: integer
+            description: 'Number of records per page (1-100). Defaults to 15.'
+            example: 25
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                    -
+                      id: 00000000-0000-4000-8000-000000000001
+                      source: naturalis
+                      external_id: NAT-00001
+                      scientific_name: 'Ammonite example'
+                      geological_context: Cretaceous
+                      latitude: 52.1
+                      longitude: 5.1
+                    -
+                      id: 00000000-0000-4000-8000-000000000002
+                      source: naturalis
+                      external_id: NAT-00002
+                      scientific_name: 'Ammonite example'
+                      geological_context: Cretaceous
+                      latitude: 52.1
+                      longitude: 5.1
+                  meta:
+                    pagination:
+                      total: 2
+                      count: 2
+                      per_page: 15
+                      current_page: 1
+                      total_pages: 1
+                      links: {}
+                properties:
+                  data:
+                    type: array
+                    example:
+                      -
+                        id: 00000000-0000-4000-8000-000000000001
+                        source: naturalis
+                        external_id: NAT-00001
+                        scientific_name: 'Ammonite example'
+                        geological_context: Cretaceous
+                        latitude: 52.1
+                        longitude: 5.1
+                      -
+                        id: 00000000-0000-4000-8000-000000000002
+                        source: naturalis
+                        external_id: NAT-00002
+                        scientific_name: 'Ammonite example'
+                        geological_context: Cretaceous
+                        latitude: 52.1
+                        longitude: 5.1
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          example: 00000000-0000-4000-8000-000000000001
+                        source:
+                          type: string
+                          example: naturalis
+                        external_id:
+                          type: string
+                          example: NAT-00001
+                        scientific_name:
+                          type: string
+                          example: 'Ammonite example'
+                        geological_context:
+                          type: string
+                          example: Cretaceous
+                        latitude:
+                          type: number
+                          example: 52.1
+                        longitude:
+                          type: number
+                          example: 5.1
+                  meta:
+                    type: object
+                    properties:
+                      pagination:
+                        type: object
+                        properties:
+                          total:
+                            type: integer
+                            example: 2
+                          count:
+                            type: integer
+                            example: 2
+                          per_page:
+                            type: integer
+                            example: 15
+                          current_page:
+                            type: integer
+                            example: 1
+                          total_pages:
+                            type: integer
+                            example: 1
+                          links:
+                            type: object
+                            properties: {}
+      tags:
+        - Fossils
+      security: []
+  '/api/fossils/{id}':
+    get:
+      summary: 'Return one fossil record by its UUID.'
+      operationId: returnOneFossilRecordByItsUUID
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                    id: 00000000-0000-4000-8000-000000000003
+                    source: naturalis
+                    external_id: NAT-00003
+                    scientific_name: 'Ammonite example'
+                    geological_context: Cretaceous
+                    latitude: 52.1
+                    longitude: 5.1
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: 00000000-0000-4000-8000-000000000003
+                      source:
+                        type: string
+                        example: naturalis
+                      external_id:
+                        type: string
+                        example: NAT-00003
+                      scientific_name:
+                        type: string
+                        example: 'Ammonite example'
+                      geological_context:
+                        type: string
+                        example: Cretaceous
+                      latitude:
+                        type: number
+                        example: 52.1
+                      longitude:
+                        type: number
+                        example: 5.1
+        404:
+          description: 'Fossil not found'
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'Not Found'
+                properties:
+                  message:
+                    type: string
+                    example: 'Not Found'
+      tags:
+        - Fossils
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the fossil.'
+        example: architecto
+        required: true
+        schema:
+          type: string
+      -
+        in: path
+        name: fossil
+        description: 'The fossil UUID.'
+        example: 018f47e2-8d35-7e8d-a5a2-f858b1b8d5c1
+        required: true
+        schema:
+          type: string

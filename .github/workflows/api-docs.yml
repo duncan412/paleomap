@@ -1,0 +1,29 @@
+name: API documentation
+
+on:
+  pull_request:
+  push:
+
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.5'
+          extensions: pdo_sqlite
+          coverage: none
+      - uses: ramsey/composer-install@v3
+      - name: Prepare database
+        run: |
+          touch database/database.sqlite
+          php artisan migrate --force
+        env:
+          DB_CONNECTION: sqlite
+          DB_DATABASE: database/database.sqlite
+      - name: Regenerate and check API documentation
+        run: composer docs:check
+        env:
+          DB_CONNECTION: sqlite
+          DB_DATABASE: database/database.sqlite

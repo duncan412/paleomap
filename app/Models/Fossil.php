@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Enums\FossilSource;
+use Database\Factories\FossilFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -20,6 +22,9 @@ use Illuminate\Database\Eloquent\Model;
  */
 final class Fossil extends Model
 {
+    /** @use HasFactory<FossilFactory> */
+    use HasFactory;
+
     use HasUuids;
 
     /**

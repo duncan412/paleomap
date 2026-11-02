@@ -1,0 +1,137 @@
+{
+    "variable": [
+        {
+            "id": "baseUrl",
+            "key": "baseUrl",
+            "type": "string",
+            "name": "string",
+            "value": "http:\/\/localhost"
+        }
+    ],
+    "info": {
+        "name": "Fossil Data Hub API Documentation",
+        "_postman_id": "f3f773e2-1328-4e31-b978-82af632456db",
+        "description": "Read fossil records collected from Naturalis and GBIF.",
+        "schema": "https:\/\/schema.getpostman.com\/json\/collection\/v2.1.0\/collection.json"
+    },
+    "item": [
+        {
+            "name": "Fossils",
+            "description": "",
+            "item": [
+                {
+                    "name": "List fossil records with optional source\/name filters and pagination.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/fossils",
+                            "query": [
+                                {
+                                    "key": "source",
+                                    "value": "gbif",
+                                    "description": "Filter by source. Allowed values: naturalis, gbif.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "scientific_name",
+                                    "value": "Tyrannosaurus",
+                                    "description": "Filter by a scientific name containing this text.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "per_page",
+                                    "value": "25",
+                                    "description": "Number of records per page (1-100). Defaults to 15.",
+                                    "disabled": false
+                                }
+                            ],
+                            "raw": "{{baseUrl}}\/api\/fossils?source=gbif&scientific_name=Tyrannosaurus&per_page=25"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"data\":[{\"id\":\"00000000-0000-4000-8000-000000000001\",\"source\":\"naturalis\",\"external_id\":\"NAT-00001\",\"scientific_name\":\"Ammonite example\",\"geological_context\":\"Cretaceous\",\"latitude\":52.1,\"longitude\":5.1},{\"id\":\"00000000-0000-4000-8000-000000000002\",\"source\":\"naturalis\",\"external_id\":\"NAT-00002\",\"scientific_name\":\"Ammonite example\",\"geological_context\":\"Cretaceous\",\"latitude\":52.1,\"longitude\":5.1}],\"meta\":{\"pagination\":{\"total\":2,\"count\":2,\"per_page\":15,\"current_page\":1,\"total_pages\":1,\"links\":{}}}}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Return one fossil record by its UUID.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/fossils\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/fossils\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "architecto",
+                                    "description": "The ID of the fossil."
+                                },
+                                {
+                                    "id": "fossil",
+                                    "key": "fossil",
+                                    "value": "018f47e2-8d35-7e8d-a5a2-f858b1b8d5c1",
+                                    "description": "The fossil UUID."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"data\":{\"id\":\"00000000-0000-4000-8000-000000000003\",\"source\":\"naturalis\",\"external_id\":\"NAT-00003\",\"scientific_name\":\"Ammonite example\",\"geological_context\":\"Cretaceous\",\"latitude\":52.1,\"longitude\":5.1}}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 404,
+                            "body": "{\"message\":\"Not Found\"}",
+                            "name": "Fossil not found"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "auth": {
+        "type": "noauth"
+    }
+}

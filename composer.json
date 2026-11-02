@@ -10,10 +10,12 @@
         "brick/geo": "^0.13.1",
         "guzzlehttp/guzzle": "^7.16",
         "laravel/framework": "^12.0",
-        "laravel/tinker": "^2.10.1"
+        "laravel/tinker": "^2.10.1",
+        "league/fractal": "^0.21.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
+        "knuckleswtf/scribe": "^5.11",
         "larastan/larastan": "^3.13",
         "laravel/pail": "^1.2.2",
         "laravel/pint": "^1.24",
@@ -38,6 +40,11 @@
         }
     },
     "scripts": {
+        "docs:generate": "@php artisan scribe:generate",
+        "docs:check": [
+            "@docs:generate",
+            "git diff --exit-code -- public/docs"
+        ],
         "setup": [
             "composer install",
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
