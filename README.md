@@ -67,6 +67,12 @@ composer docs:generate
 from the committed version. A GitHub Actions workflow runs this check on pushes
 and pull requests, so stale docs are caught before merging.
 
+## Changelog
+
+Pushes to `develop` automatically update `CHANGELOG.md` from Conventional
+Commits using git-cliff. Commit types and their changelog sections are configured
+in `cliff.toml`; the workflow commits the generated changelog back to `develop`.
+
 ## Quality checks
 
 ```sh

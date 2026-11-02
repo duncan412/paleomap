@@ -1,14 +1,25 @@
 name: API documentation
 
 on:
-  pull_request:
   push:
+    branches:
+      - develop
+  pull_request:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: api-docs-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
   docs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: shivammathur/setup-php@v2
         with:
           php-version: '8.5'
@@ -22,8 +33,30 @@ jobs:
         env:
           DB_CONNECTION: sqlite
           DB_DATABASE: database/database.sqlite
-      - name: Regenerate and check API documentation
+      - name: Check API documentation
+        if: github.event_name == 'pull_request'
         run: composer docs:check
         env:
           DB_CONNECTION: sqlite
           DB_DATABASE: database/database.sqlite
+      - name: Regenerate API documentation
+        if: github.event_name == 'push'
+        run: composer docs:generate
+        env:
+          DB_CONNECTION: sqlite
+          DB_DATABASE: database/database.sqlite
+      - name: Commit updated API documentation
+        if: github.event_name == 'push'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add public/docs
+
+          if git diff --cached --quiet; then
+            echo "API documentation is already up to date"
+            exit 0
+          fi
+
+          git commit -m "docs: update generated API documentation"
+          git push origin HEAD:develop
