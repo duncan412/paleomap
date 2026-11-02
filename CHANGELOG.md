@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Maintenance
 
+- **docs:** Added license and legal text
 - Automate changelog and API documentation updates
 - **database:** Include Laravel default migrations
 - Initialize Laravel 12 on develop with PHPStan level 9 and Pest
